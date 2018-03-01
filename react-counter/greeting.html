@@ -2,31 +2,94 @@
 <html>
 
 <head>
-    <title>My First React App</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+
+  <!-- Some additional styling for fun -->
+  <style>
+    ul,
+    button {
+      width: 8%;
+      margin-top: 8px;
+    }
+
+    #app {
+      margin-left: 20px;
+    }
+  </style>
+
+  <title>My First React App</title>
+
 </head>
 
 <body>
 
-    <div id="app"></div>
+  <div id="app"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.1.0/umd/react.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.1.0/umd/react-dom.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-    <script type="text/babel">
-    
-    class Greeting extends React.Component {
-         render() {
-           return (
-             <div>
-               <h1>Hello World!</h1>
-             </div>
-           );
-         }
-       }
- 
-       ReactDOM.render(
-         <Greeting />, document.getElementById('app')
-       );
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.1.0/umd/react.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.1.0/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script type="text/babel">
+
+// What to do when the button is clicked
+    function buttonClicked(event) {
+        // Prevent the alert message from firing on load/render
+        event.preventDefault();
+        // Scream!
+        alert("Yeeee hawwwwww!");
+    };
+
+// Initial component from the lesson
+      class Greeting extends React.Component {
+          render() {
+              return (
+                  <div>
+                      <h1>Hello World!</h1>
+                  </div>
+              );
+          }
+      }
+
+// Created a list component and using the Bootstrap CSS to make it look nicer (and get more familiar with it)
+      class List extends React.Component {
+          render() {
+              return (
+                  <div>
+                      <ul className="list-group">
+                          <li className="list-group-item d-flex justify-content-between align-items-center"><span class="badge badge-primary badge-pill">1</span>Learn React
+                              </li>
+                          <li className="list-group-item d-flex justify-content-between align-items-center"><span class="badge badge-primary badge-pill">2</span>????
+                              </li>
+                          <li className="list-group-item d-flex justify-content-between align-items-center"><span class="badge badge-primary badge-pill">3</span>Profit!
+                              </li>
+                      </ul>
+                  </div>
+              );
+          }
+      }
+
+// Created a button component to pop an alert and styled it with Bootstrap
+      class GoButton extends React.Component {
+          render() {
+              return (
+                  <div>
+                      <button className="btn btn-success" onClick={buttonClicked}>Let's Go!</button>
+                  </div>
+              )
+          }
+      }
+
+// Put all of my components in a variable so they can all be rendered through ReactDOM together
+      let renderElements = (
+          <div>
+              <Greeting />
+              <List />
+              <GoButton />
+          </div>
+      );
+
+      ReactDOM.render(renderElements, document.getElementById('app'));
     
     </script>
 </body>
