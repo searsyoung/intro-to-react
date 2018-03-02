@@ -18,9 +18,7 @@
             margin-left: 20px;
         }
     </style>
-
     <title>My First React App</title>
-
 </head>
 
 <body>
@@ -32,103 +30,94 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
     <script type="text/babel">
 
-
-// Initial component from the lesson, expanded to act as Parent to other components
-      class Greeting extends React.Component {
-        constructor(props){
-          super(props);
-          // Putting the List component action items into State at the top Parent Greeting component
-          // Setting the default state to a variable so we can reset back with a button click
-          this.initialState = {
-            step1: "Learn React",
-            step2: "????",
-            step3: "Profit!",
-            buttonText: "Do it!"
-          };
-          // Assign state the variable set above
-          this.state = this.initialState;
+        // Initial component from the lesson, expanded to act as Parent to other components
+        class Greeting extends React.Component {
+            constructor(props) {
+                super(props);
+                // Putting the List component action items into State at the top Parent Greeting component
+                // Setting the default state to a variable so we can reset back with a button click
+                this.initialState = {
+                    step1: "Learn React",
+                    step2: "????",
+                    step3: "Profit!",
+                    buttonText: "Do it!"
+                };
+                // Assign state the variable set above
+                this.state = this.initialState;
+            }
+            // Fires when new button is clicked and will change the text in the List and Alert button
+            buttonChange(event) {
+                // If it's the default, update it with the new state
+                if (this.state.buttonText === this.initialState.buttonText) {
+                    this.setState({
+                        buttonText: "Changed it!",
+                        step1: "Turn on Tv",
+                        step2: "Pick a channel",
+                        step3: "Kick back and relax"
+                    }
+                    )
+                    // If it's not the original state, set it back using the original variable
+                } else {
+                    this.setState({
+                        buttonText: this.initialState.buttonText,
+                        step1: this.initialState.step1,
+                        step2: this.initialState.step2,
+                        step3: this.initialState.step3
+                    })
+                }
+            }
+            render() {
+                // Passing the state from the parent Greeting into the List component so it can be referenced as a prop
+                // Added a new button to toggle the state of the UI components in List and GoButton
+                return (
+                    <div>
+                        <h1>Hello World!</h1>
+                        <List step1={this.state.step1} step2={this.state.step2} step3={this.state.step3} buttonText={this.state.buttonText} />
+                        <button onClick={this.buttonChange.bind(this)}>Toggle Text</button>
+                    </div>
+                );
+            }
         }
-        // Fires when new button is clicked and will change the text in the List and Alert button
-        buttonChange(event) {
-        // If it's the default, update it with the new state
-        if (this.state.buttonText === this.initialState.buttonText){
-          this.setState({
-            buttonText: "Changed it!",
-            step1: "Turn on Tv",
-            step2: "Pick a channel",
-            step3: "Kick back and relax"
-          }  
-        )
-    // If it's not the original state, set it back using the original variable
-    } else {
-            this.setState({
-            buttonText: this.initialState.buttonText,
-            step1: this.initialState.step1,
-            step2: this.initialState.step2,
-            step3: this.initialState.step3
 
-          })
-          }
-          
-          }
-        
+        // Created a list component and using the Bootstrap CSS to make it look nicer (and get more familiar with it)
+        class List extends React.Component {
+            render() {
+                // Using the props passed down from parent Greeting from state
+                return (
+                    <div>
+                        <ul className="list-group">
+                            <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">1</span>{this.props.step1}
+                            </li>
+                            <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">2</span>{this.props.step2}
+                            </li>
+                            <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">3</span>{this.props.step3}
+                            </li>
+                        </ul>
+                        <GoButton buttonText={this.props.buttonText} />
+                    </div>
+                );
+            }
+        }
 
-          render() {
-            // Passing the state from the parent Greeting into the List component so it can be referenced as a prop
-            // Added a new button to toggle the state of the UI components in List and GoButton
-              return (
-                  <div>
-                      <h1>Hello World!</h1>
-                      <List step1={this.state.step1} step2={this.state.step2} step3={this.state.step3} buttonText={this.state.buttonText} />                      
-                <button onClick={this.buttonChange.bind(this)}>Toggle Text</button>
-                 
-                  </div>
+        // Created a button component to pop an alert and styled it with Bootstrap
+        class GoButton extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <button className="btn btn-success" onClick={this.props.onClick}>{this.props.buttonText}</button>
+                    </div>
+                )
+            }
+        }
 
-              );
-          }
-      }
+        // Defined props specifically for the GoButton component
+        GoButton.defaultProps = {
+            onClick: () => {
+                alert("Wooooooop Woooooooop it's a default Prop!")
+            }
+        }
+        ReactDOM.render(<Greeting />, document.getElementById('app'));
 
-// Created a list component and using the Bootstrap CSS to make it look nicer (and get more familiar with it)
-      class List extends React.Component {
-          render() {
-            // Using the props passed down from parent Greeting from state
-              return (
-                  <div>
-                      <ul className="list-group">
-                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">1</span>{this.props.step1}
-                              </li>
-                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">2</span>{this.props.step2}
-                              </li>
-                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">3</span>{this.props.step3}
-                              </li>
-                      </ul>
-                      <GoButton buttonText={this.props.buttonText}/>
-                  </div>
-              );
-          }
-      }
-
-// Created a button component to pop an alert and styled it with Bootstrap
-      class GoButton extends React.Component {
-          render() {
-              return (
-                  <div>
-                      <button className="btn btn-success" onClick={this.props.onClick}>{this.props.buttonText}</button>
-                  </div>
-              )
-          }
-      }
-
-
-
-// Defined props specifically for the GoButton component
-GoButton.defaultProps = {
-  onClick: ()=>{
-      alert("Wooooooop Woooooooop it's a default Prop!")}
-}
-
-      ReactDOM.render(<Greeting />, document.getElementById('app'));
-    
     </script>
 </body>
 
