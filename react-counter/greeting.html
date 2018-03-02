@@ -2,51 +2,58 @@
 <html>
 
 <head>
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-    crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
 
-  <!-- Some additional styling for fun -->
-  <style>
-    ul,
-    button {
-      width: 8%;
-      margin-top: 8px;
-    }
+    <!-- Some additional styling for fun -->
+    <style>
+        ul,
+        button {
+            width: 8%;
+            margin-top: 8px;
+        }
 
-    #app {
-      margin-left: 20px;
-    }
-  </style>
+        #app {
+            margin-left: 20px;
+        }
+    </style>
 
-  <title>My First React App</title>
+    <title>My First React App</title>
 
 </head>
 
 <body>
 
-  <div id="app"></div>
+    <div id="app"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.1.0/umd/react.development.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.1.0/umd/react-dom.development.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
-  <script type="text/babel">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.1.0/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.1.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <script type="text/babel">
 
-// What to do when the button is clicked
-    function buttonClicked(event) {
-        // Prevent the alert message from firing on load/render
-        event.preventDefault();
-        // Scream!
-        alert("Yeeee hawwwwww!");
-    };
 
-// Initial component from the lesson
+// Initial component from the lesson, expanded to act as Parent to other components
       class Greeting extends React.Component {
+        constructor(props){
+          super(props);
+          // Putting the List component action items into State at the top Parent Greeting component
+          this.state = {
+            step1: "Learn React",
+            step2: "????",
+            step3: "Profit!",
+            buttonText: "Do it!"
+          }
+        }
+
           render() {
+            // Passing the state from the parent Greeting into the List component so it can be referenced as a prop
               return (
                   <div>
                       <h1>Hello World!</h1>
+                      <List step1={this.state.step1} step2={this.state.step2} step3={this.state.step3} buttonText={this.state.buttonText} />
                   </div>
+
               );
           }
       }
@@ -54,16 +61,18 @@
 // Created a list component and using the Bootstrap CSS to make it look nicer (and get more familiar with it)
       class List extends React.Component {
           render() {
+            // Using the props passed down from parent Greeting from state
               return (
                   <div>
                       <ul className="list-group">
-                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">1</span>Learn React
+                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">1</span>{this.props.step1}
                               </li>
-                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">2</span>????
+                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">2</span>{this.props.step2}
                               </li>
-                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">3</span>Profit!
+                          <li className="list-group-item d-flex justify-content-between align-items-center"><span className="badge badge-primary badge-pill">3</span>{this.props.step3}
                               </li>
                       </ul>
+                      <GoButton buttonText={this.props.buttonText}/>
                   </div>
               );
           }
@@ -74,22 +83,19 @@
           render() {
               return (
                   <div>
-                      <button className="btn btn-success" onClick={buttonClicked}>Let's Go!</button>
+                      <button className="btn btn-success" onClick={this.props.onClick}>{this.props.buttonText}</button>
                   </div>
               )
           }
       }
 
-// Put all of my components in a variable so they can all be rendered through ReactDOM together
-      let renderElements = (
-          <div>
-              <Greeting />
-              <List />
-              <GoButton />
-          </div>
-      );
+// Defined props specifically for the GoButton component
+GoButton.defaultProps = {
+  onClick: ()=>{
+      alert("Wooooooop Woooooooop it's a default Prop!")}
+}
 
-      ReactDOM.render(renderElements, document.getElementById('app'));
+      ReactDOM.render(<Greeting />, document.getElementById('app'));
     
     </script>
 </body>
