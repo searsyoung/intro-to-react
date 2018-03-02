@@ -38,29 +38,29 @@
         constructor(props){
           super(props);
           // Putting the List component action items into State at the top Parent Greeting component
+          // Setting the default state to a variable so we can reset back with a button click
           this.initialState = {
             step1: "Learn React",
             step2: "????",
             step3: "Profit!",
             buttonText: "Do it!"
           };
+          // Assign state the variable set above
           this.state = this.initialState;
         }
+        // Fires when new button is clicked and will change the text in the List and Alert button
         buttonChange(event) {
-        //const initialState = {...this.state};
-            if (this.state.buttonText === this.initialState.buttonText){
+        // If it's the default, update it with the new state
+        if (this.state.buttonText === this.initialState.buttonText){
           this.setState({
             buttonText: "Changed it!",
             step1: "Turn on Tv",
             step2: "Pick a channel",
             step3: "Kick back and relax"
-          }
-          
-          
+          }  
         )
-
+    // If it's not the original state, set it back using the original variable
     } else {
-
             this.setState({
             buttonText: this.initialState.buttonText,
             step1: this.initialState.step1,
@@ -75,11 +75,11 @@
 
           render() {
             // Passing the state from the parent Greeting into the List component so it can be referenced as a prop
+            // Added a new button to toggle the state of the UI components in List and GoButton
               return (
                   <div>
                       <h1>Hello World!</h1>
-                      <List step1={this.state.step1} step2={this.state.step2} step3={this.state.step3} buttonText={this.state.buttonText} />
-                      
+                      <List step1={this.state.step1} step2={this.state.step2} step3={this.state.step3} buttonText={this.state.buttonText} />                      
                 <button onClick={this.buttonChange.bind(this)}>Toggle Text</button>
                  
                   </div>
