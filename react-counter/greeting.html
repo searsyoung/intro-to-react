@@ -10,7 +10,7 @@
     <style>
         ul,
         button {
-            width: 8%;
+            width: 10%;
             margin-top: 8px;
         }
 
@@ -38,13 +38,40 @@
         constructor(props){
           super(props);
           // Putting the List component action items into State at the top Parent Greeting component
-          this.state = {
+          this.initialState = {
             step1: "Learn React",
             step2: "????",
             step3: "Profit!",
             buttonText: "Do it!"
-          }
+          };
+          this.state = this.initialState;
         }
+        buttonChange(event) {
+        //const initialState = {...this.state};
+            if (this.state.buttonText === this.initialState.buttonText){
+          this.setState({
+            buttonText: "Changed it!",
+            step1: "Turn on Tv",
+            step2: "Pick a channel",
+            step3: "Kick back and relax"
+          }
+          
+          
+        )
+
+    } else {
+
+            this.setState({
+            buttonText: this.initialState.buttonText,
+            step1: this.initialState.step1,
+            step2: this.initialState.step2,
+            step3: this.initialState.step3
+
+          })
+          }
+          
+          }
+        
 
           render() {
             // Passing the state from the parent Greeting into the List component so it can be referenced as a prop
@@ -52,6 +79,9 @@
                   <div>
                       <h1>Hello World!</h1>
                       <List step1={this.state.step1} step2={this.state.step2} step3={this.state.step3} buttonText={this.state.buttonText} />
+                      
+                <button onClick={this.buttonChange.bind(this)}>Toggle Text</button>
+                 
                   </div>
 
               );
@@ -88,6 +118,8 @@
               )
           }
       }
+
+
 
 // Defined props specifically for the GoButton component
 GoButton.defaultProps = {
